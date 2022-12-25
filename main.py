@@ -46,24 +46,27 @@ def decryptFiles(key,directory):
       with open(f'{directory}\{file}','wb') as old:
          old.write(decrypted)
 
-state = 'decrypted'
 if __name__=='__main__':
    my_key=input("Enter the name of your USB device: ")
    FilesPath=input("Enter the path of the file you want to encrypt/decrypt: ")
-   while True:
-      disk = check_for_key(my_key)
-      try:
-         key = load_key(disk)
-      except:
-         print('No Key Available')
-      if disk!=None:
-         current_state = 'decrypted'
-         if current_state!=state:
-            decryptFiles(key,FilesPath)
-         else:
-            current_state = 'encrypted'
-            if current_state!=state:
-               encryptFiles(key,FilesPath)
+   option=input("Want to encrypt your file? ->Type 1, Decrypt ->Type 2")
+   if option=='1':
+      state='decrypted'
+   else:
+      state='encrypted'
+   disk = check_for_key(my_key)
+   try:
+      key = load_key(disk)
+   except:
+      print('No Key Available')
+   if disk != None:
+      if state=='encrypted':
+         print ('Decrypting-----')
+         decryptFiles(key, FilesPath)
+      else:
+         print ('Encrypting---------')
+         encryptFiles(key, FilesPath)
+
 
 # if __name__=='__main__':
 #    exec(open("F:\Secret\TEXT.py").read())
